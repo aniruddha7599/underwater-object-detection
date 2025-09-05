@@ -1,170 +1,113 @@
-Deep Learning for Underwater Object Detection
-This repository contains the official PyTorch implementation for the research paper "Deep Learning Approaches for Underwater Object Detection." It provides a benchmark and analysis of several deep learning architectures for segmenting objects in challenging underwater environments.
+Underwater Object Detection and Segmentation
 
-🎯 Overview
-Object detection in underwater scenes is a significant challenge due to poor visibility, light scattering, complex backgrounds, and unpredictable object motion. This project implements and evaluates several deep learning models to tackle these problems, providing a robust framework for underwater image segmentation.
+📌 Overview
 
-The core of this work is an empirical study of standard and graph-based neural network architectures on the Fish4Knowledge dataset.
+This project explores deep learning approaches for underwater object detection and segmentation.
+Underwater environments pose unique challenges such as:
 
-✨ Key Features
-Multiple Model Architectures: Implementation of U-Net, ResNet50, and a novel ResNet50+GAT model.
+Poor visibility and lighting,
 
-Graph Neural Network Integration: Explores the use of a Graph Attention Network (GAT) to model spatial dependencies between pixels for improved segmentation.
+Dynamic and complex backgrounds,
 
-Comprehensive Evaluation: Models are benchmarked across five distinct and challenging underwater scenarios.
+Occlusions and overlapping objects.
 
-Modular Codebase: Easy-to-use scripts for training and evaluating models.
-
-🏗️ Model Architectures
-We implemented three distinct models to evaluate their effectiveness for underwater object segmentation.
-
-U-Net: A classic fully convolutional neural network architecture for semantic segmentation. Its encoder-decoder structure with skip connections is highly effective at capturing contextual information and localizing objects precisely.
-
-ResNet50: A powerful 50-layer deep residual network, pre-trained on ImageNet, serves as the backbone. We adapt it for segmentation by replacing the final fully connected layers with upsampling layers to generate a pixel-wise mask.
-
-ResNet50 + GAT (Graph Attention Network): Our novel approach integrates a GAT module into the bottleneck of the ResNet50 architecture. This allows the model to learn the relative importance between different pixel regions, effectively modeling long-range dependencies and improving performance in cluttered or complex scenes.
-
-📊 Dataset
-The models were trained and evaluated on the Fish4Knowledge dataset. This dataset is specifically designed for underwater object detection and includes a wide variety of challenging scenarios.
-
-The dataset is categorized into five distinct challenges:
-
-ComplexBkg: Scenes with complex, non-uniform backgrounds.
-
-Crowded: Scenes containing many overlapping objects.
-
-DynamicBkg: Scenes with significant background motion.
-
-Hybrid: A mixture of different challenges.
-
-Standard: General underwater scenes with moderate difficulty.
-
-Data Augmentation: To improve model generalization, we apply several augmentation techniques during training, including random cropping, horizontal flipping, rotation, and color jittering.
-
-🚀 Results and Performance
-The models were evaluated using Precision, Recall, and F-measure metrics. The ResNet50 architecture demonstrated the most robust and consistent performance across all categories, establishing a strong baseline. The ResNet50+GAT model also showed highly competitive results, confirming the potential of graph-based methods for this task.
-
-Performance Metrics on Fish4Knowledge
-Model
-
-Challenge
-
-F-measure (%)
-
-Precision (%)
+We evaluate and compare three models:
 
 U-Net
 
-Crowded
-
-60.13
-
-61.34
-
-U-Net
-
-DynamicBkg
-
-58.09
-
-59.96
-
 ResNet50
 
-ComplexBkg
+ResNet50 + Graph Attention Network (GAT)
 
-83.91
+The goal is to investigate how graph-based learning improves feature representation and segmentation performance in underwater imagery.
 
-85.62
+🧠 Methodology
+1. Dataset
 
-ResNet50
+We use the Fish4Knowledge (F4K) dataset, which includes underwater scenes categorized into:
+
+Complex Background (ComplexBkg)
 
 Crowded
 
-82.96
-
-82.28
-
-ResNet50+GAT
-
-ComplexBkg
-
-83.73
-
-82.95
-
-ResNet50+GAT
+Dynamic Background (DynamicBkg)
 
 Hybrid
 
-80.34
+Standard
 
-81.51
+Images are resized to 240×320 pixels with augmentations:
 
-Visual Comparison Across Challenges
-The following chart illustrates the performance of each model across the different challenge categories in the dataset.
+Random cropping, flipping, rotation, and color adjustments.
 
-🛠️ Getting Started
-Follow these instructions to set up the environment and run the code.
+2. Models
 
-Prerequisites
-Python 3.8 or higher
+U-Net: Encoder-decoder architecture for image segmentation.
 
-PyTorch
+ResNet50: Deep residual network modified with upsampling layers for segmentation.
 
-A CUDA-enabled GPU is highly recommended for training.
+ResNet50 + GAT: Graph Attention Network applied at the bottleneck to capture long-range dependencies in feature space.
 
-Installation
-Clone the repository:
+3. Training Configuration
 
-git clone [https://github.com/your-username/underwater-object-detection.git](https://github.com/your-username/underwater-object-detection.git)
+Optimizer: Adam, LR = 1e-4 with cosine annealing.
+
+Loss: Binary Cross-Entropy + Dice loss.
+
+Epochs: 200.
+
+Gradient clipping, mixed precision training, and NaN checks for stability.
+
+📊 Results
+
+The figure below summarizes performance across challenges:
+
+Key Observations
+
+ResNet50 consistently achieves the best results, with highest F-measure and Precision across categories.
+
+ResNet50+GAT performs closely, especially in Hybrid and Crowded scenarios, showing the benefit of attention-based context modeling.
+
+U-Net lags behind due to its simpler architecture and lack of pretrained weights.
+
+Dynamic backgrounds remain the most challenging scenario.
+
+⚙️ Installation
+# Clone repository
+git clone https://github.com/aniruddha7599/underwater-object-detection.git
 cd underwater-object-detection
 
-Create and activate a virtual environment:
+# Create environment (optional but recommended)
+conda create -n uw_detection python=3.9
+conda activate uw_detection
 
-python -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-
-Install the required dependencies:
-
+# Install dependencies
 pip install -r requirements.txt
 
-(Note: You will need to create a requirements.txt file containing libraries like torch, torchvision, numpy, opencv-python, scikit-learn, etc.)
+🚀 Usage
+Training
+python train.py --model unet --dataset /path/to/F4K
+python train.py --model resnet50 --dataset /path/to/F4K
+python train.py --model resnet50_gat --dataset /path/to/F4K
 
-Training and Evaluation
-Download the Dataset: Place the Fish4Knowledge dataset into a data/ directory within the project root.
+Evaluation
+python evaluate.py --model resnet50_gat --dataset /path/to/F4K --weights saved_models/resnet50_gat.pth
 
-Train a Model: Use the train.py script to start training.
+Inference
+python inference.py --image sample.jpg --model resnet50_gat --weights saved_models/resnet50_gat.pth
 
-python train.py --model ResNet50 --dataset_path ./data/ --epochs 200 --batch_size 8
+📚 References
 
-Evaluate a Model: Use the evaluate.py script to test a trained model checkpoint.
+This project is based on a survey and experimental study presented in the minor project report:
 
-python evaluate.py --model ResNet50 --weights_path ./checkpoints/resnet50_best.pth
+M. Kapoor et al., Underwater Moving Object Detection using Encoder-Decoder Architecture and GraphSage, CVPR Workshop, 2023.
 
-🔮 Future Work
-Based on our findings, future research will focus on:
+S. Gupta et al., DFTNet: Deep Fish Tracker With Attention Mechanism in Marine Environments, IEEE T-IM, 2021.
 
-Advanced GNNs: Exploring Hyperbolic Graph Convolutional Networks (HGCN) to better capture complex, non-Euclidean relationships in underwater scenes.
+P. Sarkar et al., UICE-MIRNet guided image enhancement for underwater object detection, Scientific Reports, 2024.
 
-Image Enhancement: Integrating dedicated underwater image enhancement models (like UICE-MIRNet) as a preprocessing step to improve feature quality.
+O. Ronneberger et al., U-Net: Convolutional Networks for Biomedical Image Segmentation, MICCAI, 2015.
 
-Object Tracking: Extending the current framework to include object tracking, implementing models reviewed in our paper like DFTNet.
+K. He et al., Deep Residual Learning for Image Recognition (ResNet), CVPR, 2016.
 
-📜 Citation
-If you find this work useful in your research, please consider citing our paper and the original works that inspired this project.
-
-@article{shinde2024deep,
-  title={Deep Learning Approaches for Underwater Object Detection and Tracking: A Review},
-  author={Shinde, Aniruddha Anil},
-  year={2024},
-  journal={Internal Report, Dhirubhai Ambani Institute of Information and Communication Technology}
-}
-
-This project builds upon the ideas from the following key papers:
-
-U-Net: Convolutional Networks for Biomedical Image Segmentation
-
-Deep Residual Learning for Image Recognition
-
-Graph Attention Networks
+P. Veličković et al., Graph Attention Networks (GAT), ICLR, 2018.
