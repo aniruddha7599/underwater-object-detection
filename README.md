@@ -1,6 +1,5 @@
 # 🌊 Underwater Object Detection and Segmentation
 
-![Results](https://github.com/aniruddha7599/underwater-object-detection/blob/main/Model_comparison.png)
 
 ---
 
@@ -17,6 +16,11 @@ We evaluate and compare three models:
 - **ResNet50 + Graph Attention Network (GAT)**  
 
 The goal is to investigate how **graph-based learning** improves feature representation and segmentation performance in underwater imagery.
+
+---
+
+![Results](https://github.com/aniruddha7599/underwater-object-detection/blob/main/Model_comparison.png)
+
 
 ---
 
