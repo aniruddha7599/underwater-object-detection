@@ -80,3 +80,15 @@ conda activate uw_detection
 
 # Install dependencies
 pip install -r requirements.txt
+
+📚 References
+
+This work is based on a survey and experimental study presented in the minor project report:
+
+M. Kapoor et al., Underwater Moving Object Detection using Encoder-Decoder Architecture and GraphSage, CVPR Workshop, 2023.
+
+O. Ronneberger et al., U-Net: Convolutional Networks for Biomedical Image Segmentation, MICCAI, 2015.
+
+K. He et al., Deep Residual Learning for Image Recognition (ResNet), CVPR, 2016.
+
+P. Veličković et al., Graph Attention Networks (GAT), ICLR, 2018.
