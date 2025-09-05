@@ -85,6 +85,8 @@ conda activate uw_detection
 # Install dependencies
 pip install -r requirements.txt
 
+```
+
 📚 References
 
 This work is based on a survey and experimental study presented in the minor project report:
