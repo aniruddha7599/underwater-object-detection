@@ -50,7 +50,7 @@ We use the **Fish4Knowledge (F4K)** dataset, which includes underwater scenes ca
 ### 3️⃣ Training Configuration
 - Optimizer: **Adam** (`lr = 1e-4`, cosine annealing scheduler)  
 - Loss: **Binary Cross-Entropy + Dice Loss**  
-- Epochs: **200**  
+- Epochs: **150**  
 - Tricks: Gradient clipping, mixed precision training, NaN checks  
 
 ---
