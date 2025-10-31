@@ -65,7 +65,7 @@ We use the **Fish4Knowledge (F4K)** dataset, which includes underwater scenes ca
 
 🔑 **Insights**:
 - ResNet50 achieves the best overall results (highest **Precision** and **F-measure**).  
-- ResNet50+GAT performs strongly in **crowded** and **hybrid** scenarios, showing the value of attention-based context modeling.  
+- ResNet50+GAT performed comparable to standalone ResNet50 but not better.  
 - U-Net lags due to its simpler architecture and no pretrained backbone.  
 - Dynamic backgrounds remain the toughest challenge.  
 
